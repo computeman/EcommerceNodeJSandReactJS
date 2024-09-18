@@ -4,6 +4,7 @@ const express = require("express");
 const sequelize = require("./db"); // Import the Sequelize instance
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
+const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(express.json());
 // Register your routes
 app.use("/api", userRoutes);
 app.use("/api", productRoutes);
+app.use('/api', cartRoutes);
 
 // Sync all models and start the server
 sequelize
