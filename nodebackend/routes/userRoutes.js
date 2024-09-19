@@ -39,4 +39,108 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// Get user account information
+router.get("/user/account", authenticateToken, async (req, res) => {
+  const currentUser = req.user;
+
+  try {
+    const user = await User.findByPk(currentUser.id);
+
+    return res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      created_at: user.createdAt,
+      updated_at: user.updatedAt,
+    });
+  } catch {
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Update user account information
+router.put("/user/account", authenticateToken, async (req, res) => {
+  const currentUser = req.user;
+  const data = req.body;
+
+  try {
+    const user = await User.findByPk(currentUser.id);
+
+    user.name = data.name || user.name;
+    user.email = data.email || user.email;
+
+    if (data.password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password_hash = await bcrypt.hash(data.password, salt);
+    }
+
+    await user.save();
+
+    return res.json({ message: "Account updated successfully" });
+  } catch {
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Add user address
+router.post("/user/address", authenticateToken, async (req, res) => {
+  const currentUser = req.user;
+  const data = req.body;
+
+  try {
+    const existingAddress = await Address.findOne({
+      where: { user_id: currentUser.id },
+    });
+
+    if (existingAddress) {
+      return res
+        .status(400)
+        .json({ message: "Address already exists. Use PUT to update." });
+    }
+
+    await Address.create({
+      user_id: currentUser.id,
+      street: data.street,
+      city: data.city,
+      state: data.state,
+      zip_code: data.zip_code,
+      country: data.country,
+    });
+
+    return res.status(201).json({ message: "Address added successfully" });
+  } catch {
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Update user address
+router.put("/user/address", authenticateToken, async (req, res) => {
+  const currentUser = req.user;
+  const data = req.body;
+
+  try {
+    const address = await Address.findOne({
+      where: { user_id: currentUser.id },
+    });
+
+    if (!address) {
+      return res
+        .status(404)
+        .json({ message: "Address not found. Use POST to add." });
+    }
+
+    address.street = data.street || address.street;
+    address.city = data.city || address.city;
+    address.state = data.state || address.state;
+    address.zip_code = data.zip_code || address.zip_code;
+    address.country = data.country || address.country;
+
+    await address.save();
+
+    return res.json({ message: "Address updated successfully" });
+  } catch {
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

@@ -135,4 +135,53 @@ router.get("/orders", authenticateToken, async (req, res) => {
   }
 });
 
+// Create a payment for an order
+router.post("/payment/:order_id", authenticateToken, async (req, res) => {
+  const currentUser = req.user;
+  const order_id = req.params.order_id;
+  const data = req.body;
+
+  try {
+    const user = await User.findByPk(currentUser.id);
+    const order = await Order.findOne({
+      where: { id: order_id, user_id: user.id },
+    });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Check if payment already exists for this order
+    const existingPayment = await Payment.findOne({
+      where: { order_id: order.id },
+    });
+
+    if (existingPayment) {
+      return res
+        .status(400)
+        .json({ message: "Payment already made for this order" });
+    }
+
+    // Create new payment
+    const payment = await Payment.create({
+      user_id: user.id,
+      order_id: order.id,
+      amount: order.total_amount,
+      payment_method: data.payment_method,
+      status: "Paid",
+    });
+
+    // Update order status if needed
+    order.status = "Paid";
+    await order.save();
+
+    return res.status(201).json({
+      message: "Payment processed successfully",
+      payment_id: payment.id,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;
