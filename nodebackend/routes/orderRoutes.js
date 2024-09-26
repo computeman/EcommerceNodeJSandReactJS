@@ -7,10 +7,10 @@ const {
   Order,
   OrderItem,
   Product,
+  Payment,
 } = require("../models");
 const { authenticateToken } = require("../middleware/auth");
 
-// Checkout/create order.
 router.post("/checkout", authenticateToken, async (req, res) => {
   const currentUser = req.user;
 
@@ -53,8 +53,11 @@ router.post("/checkout", authenticateToken, async (req, res) => {
     return res
       .status(201)
       .json({ message: "Order placed successfully", order_id: order.id });
-  } catch {
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error); // Log the error details
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 });
 
@@ -180,7 +183,11 @@ router.post("/payment/:order_id", authenticateToken, async (req, res) => {
       payment_id: payment.id,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Server error" });
+    // Log the error for debugging purposes
+    console.error("Payment Error:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 });
 
