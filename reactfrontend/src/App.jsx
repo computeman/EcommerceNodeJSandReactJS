@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import UserLogin from "./components/UserLogin";
+import SellerLogin from "./components/SellerLogin";
+import OwnerLogin from "./components/OwnerLogin";
+import UserDashboard from "./components/UserDashboard";
+import SellerDashboard from "./components/SellerDashboard";
+import OwnerDashboard from "./components/OwnerDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/seller/login" element={<SellerLogin />} />
+        <Route path="/owner/login" element={<OwnerLogin />} />
+
+        {/* Protected routes */}
+        <Route
+          path="/user/dashboard"
+          element={
+            <ProtectedRoute component={UserDashboard} allowedRole="user" />
+          }
+        />
+        <Route
+          path="/seller/dashboard"
+          element={
+            <ProtectedRoute component={SellerDashboard} allowedRole="seller" />
+          }
+        />
+        <Route
+          path="/owner/dashboard"
+          element={
+            <ProtectedRoute component={OwnerDashboard} allowedRole="owner" />
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
