@@ -15,6 +15,8 @@ const UserLogin = () => {
 
     const data = await response.json();
     if (response.ok) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
       navigate("/user/dashboard");
     } else {
       alert(data.error);

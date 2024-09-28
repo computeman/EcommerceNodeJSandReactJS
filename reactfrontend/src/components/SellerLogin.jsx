@@ -15,6 +15,9 @@ const SellerLogin = () => {
 
     const data = await response.json();
     if (response.ok) {
+      console.log(data);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
       navigate("/seller/dashboard");
     } else {
       alert(data.message);

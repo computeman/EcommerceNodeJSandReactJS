@@ -13,10 +13,12 @@ router.post("/seller/login", async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password_hash))) {
       return res.status(401).json({ message: "Invalid seller credentials" });
     }
+    const role = "seller";
+
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
       expiresIn: "24h",
     });
-    res.json({ token });
+    res.json({ token, role });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
