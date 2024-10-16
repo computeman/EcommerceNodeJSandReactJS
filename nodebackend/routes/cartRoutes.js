@@ -100,7 +100,7 @@ router.put("/cart/update/:cartItemId", authenticateToken, async (req, res) => {
     }
 
     const cartItem = await CartItem.findOne({
-      where: { id: cartItemId, cart_id: cart.id },
+      where: { product_id: cartItemId, cart_id: cart.id },
     });
 
     if (!cartItem) {
@@ -116,6 +116,47 @@ router.put("/cart/update/:cartItemId", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// Route to decrement a cart item's quantity
+router.put(
+  "/cart/decrement/:cartItemId",
+  authenticateToken,
+  async (req, res) => {
+    const cartItemId = parseInt(req.params.cartItemId, 10);
+
+    try {
+      const user = req.user;
+      const cart = await Cart.findOne({ where: { user_id: user.id } });
+
+      if (!cart) {
+        return res.status(200).json({ message: "Cart is empty" });
+      }
+
+      const cartItem = await CartItem.findOne({
+        where: { product_id: cartItemId, cart_id: cart.id },
+      });
+
+      if (!cartItem) {
+        return res.status(404).json({ message: "Item not found in your cart" });
+      }
+
+      // Ensure the new quantity doesn't go below 1
+      cartItem.quantity = Math.max(1, cartItem.quantity - 1);
+      await cartItem.save();
+
+      // If quantity becomes 1, you might want to notify the client
+      const message =
+        cartItem.quantity === 1
+          ? "Cart item updated. Quantity is now at minimum."
+          : "Cart item updated successfully";
+
+      res.status(200).json({ message, newQuantity: cartItem.quantity });
+    } catch (error) {
+      console.error("Error updating cart item:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
 
 // Remove item from cart
 router.delete(
