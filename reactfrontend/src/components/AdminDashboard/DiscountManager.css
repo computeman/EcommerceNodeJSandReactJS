@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .discount-manager {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Headings */
+  .discount-manager h2,
+  .discount-manager h3 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Styling */
+  .discount-manager form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .discount-manager select,
+  .discount-manager input[type="number"],
+  .discount-manager input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .discount-manager select:focus,
+  .discount-manager input[type="number"]:focus,
+  .discount-manager input[type="date"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .discount-manager button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .discount-manager button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .discount-manager button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .discount-manager button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .discount-manager button[type="button"]:hover {
+    background-color: #c82333;
+  }
+  
+  /* List of Existing Discounts */
+  .discount-manager ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .discount-manager li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .discount-manager li:last-child {
+    border-bottom: none;
+  }
+  
+  .discount-manager li div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .discount-manager li img {
+    border-radius: 50%;
+  }
+  
+  .discount-manager li p {
+    margin: 0;
+    color: #6c757d;
+  }
+  
+  .discount-manager li button {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .discount-manager li button:hover {
+    color: #0056b3;
+  }

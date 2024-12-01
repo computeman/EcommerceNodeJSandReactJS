@@ -5,7 +5,7 @@ import UserLogin from "./components/UserLogin";
 import SellerLogin from "./components/SellerLogin";
 import OwnerLogin from "./components/OwnerLogin";
 import UserDashboard from "./components/UserDashboard";
-import SellerDashboard from "./components/SellerDashboard";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import OwnerDashboard from "./components/OwnerDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/NavBar";
@@ -57,9 +57,9 @@ function App() {
           }
         />
         <Route
-          path="/seller/dashboard"
+          path="/admin/*"
           element={
-            <ProtectedRoute component={SellerDashboard} allowedRole="seller" />
+            <ProtectedRoute component={AdminDashboard} allowedRole="seller" />
           }
         />
         <Route

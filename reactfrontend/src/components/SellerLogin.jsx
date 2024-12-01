@@ -18,7 +18,7 @@ const SellerLogin = () => {
       console.log(data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
-      navigate("/seller/dashboard");
+      navigate("/admin");
     } else {
       alert(data.message);
     }

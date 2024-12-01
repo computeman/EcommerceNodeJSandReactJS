@@ -1,0 +1,107 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal Container */
+  .modal-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+  }
+  
+  /* Close Button */
+  .close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: #333333;
+    cursor: pointer;
+  }
+  
+  .close-modal-button:hover {
+    color: #0056b3;
+  }
+  
+  /* Modal Headings */
+  .modal-container h3 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  /* Modal Content */
+  .modal-ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .modal-li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .modal-li:last-child {
+    border-bottom: none;
+  }
+  
+  .modal-li div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-li img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .modal-li span {
+    font-size: 16px;
+    color: #333333;
+  }
+  
+  .modal-li p {
+    margin: 0;
+    color: #6c757d;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .modal-container {
+      width: 95%;
+    }
+  
+    .modal-container h3 {
+      font-size: 1.5em;
+    }
+  
+    .modal-li img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .modal-li span {
+      font-size: 14px;
+    }
+  }
